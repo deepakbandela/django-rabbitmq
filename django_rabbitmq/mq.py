@@ -11,7 +11,7 @@ class RabbitMQ(object):
 
     def start_mq(self, queue):
         channel = self.connection.channel()
-        channel.queue_declare(queue=queue)
+        channel.queue_declare(queue=queue, durable=True)
 
         channel.basic_consume(queue=queue, on_message_callback=self.callback, auto_ack=True)
 
@@ -21,4 +21,3 @@ class RabbitMQ(object):
     @staticmethod
     def callback(ch, method, properties, body):
         print("[django-rabbitmq] Received %r" % body)
-
